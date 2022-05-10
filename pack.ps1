@@ -9,10 +9,9 @@ Param(
 
 $ErrorActionPreference = 'Stop'
 
-$configs = $('Release-LowTrust', 'Release')
+$configs = $('Release')
 
-$testTargetFrameworks = @{'Release'          = $('net45')
-                          'Release-LowTrust' = $('net6.0')}
+$testTargetFrameworks = @{'Release' = $('net6.0')}
 
 function invoke([string] $cmd) {
     echo ''
@@ -34,7 +33,7 @@ foreach ($config in $configs) {
     invoke "dotnet build FParsec/FParsec.fsproj $props -v n"
     invoke "dotnet pack FParsec/FParsec.fsproj $props -o ""$pwd\nupkgs"""
     invoke "dotnet build Test/Test.fsproj $props -v n"
-    foreach ($tf in $testTargetFrameworks[$config]) {
-        invoke "dotnet run --no-build -p Test/Test.fsproj -c $config -f $tf"
-    }
+    # foreach ($tf in $testTargetFrameworks[$config]) {
+    #     invoke "dotnet run --project Test/Test.fsproj -c $config -f $tf"
+    # }
 }

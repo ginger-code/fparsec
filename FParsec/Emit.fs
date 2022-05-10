@@ -28,22 +28,22 @@ let createTypeBuilder name args parent (interfaces : System.Type[]) =
             let assemblyName = new AssemblyName("FParsec.Emitted")
             let access =
                         #if DEBUG
-                            AssemblyBuilderAccess.RunAndSave
+                            AssemblyBuilderAccess.RunAndCollect
                         #else
                             AssemblyBuilderAccess.Run
                         #endif
-            assemblyBuilder <- System.Threading.Thread.GetDomain().DefineDynamicAssembly(assemblyName, access)
+            assemblyBuilder <- AssemblyBuilder.DefineDynamicAssembly(assemblyName, access)
             moduleBuilder <- assemblyBuilder.DefineDynamicModule("FParsec.Emitted"
-                                                                 #if DEBUG
-                                                                     , "FParsec.Emitted.dll"
-                                                                 #else
-                                                                 #endif
+//                                                                 #if DEBUG
+//                                                                     , "FParsec.Emitted.dll"
+//                                                                 #else
+//                                                                 #endif
                                                                  )
         moduleBuilder.DefineType("FParsec.Emitted." + name, args, parent, interfaces)
     )
 
 #if DEBUG
-let saveEmitAssembly fileName = assemblyBuilder.Save(fileName)
+//let saveEmitAssembly fileName = assemblyBuilder.Save(fileName)
 #endif
 
 // Does anyone have an idea why the .NET System.Reflection.Emit.OpCode
