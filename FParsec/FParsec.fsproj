@@ -1,13 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <NoWarn>0042;0051;3218</NoWarn>
+    </PropertyGroup>
 
-  <Import Project="FParsec.targets" />
+    <Import Project="FParsec.targets"/>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FParsecCS\FParsecCS.csproj" PrivateAssets="All" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\FParsecCS\FParsecCS.csproj" PrivateAssets="All"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Update="FSharp.Core" Version="6.0.6"/>
+    </ItemGroup>
 
 </Project>

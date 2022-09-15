@@ -27,53 +27,50 @@ val (|CompoundError|_|): ErrorMessage -> (string * Position * obj * ErrorMessage
 val (|OtherErrorMessage|_|): ErrorMessage -> obj option
 
 [<Literal>]
-val NoErrorMessages: ErrorMessageList = null;;
-val (|ErrorMessageList|NoErrorMessages|): ErrorMessageList -> Choice<ErrorMessage*ErrorMessageList,unit>
+val NoErrorMessages: ErrorMessageList = null
+
+val (|ErrorMessageList|NoErrorMessages|):
+    ErrorMessageList -> Choice<ErrorMessage * ErrorMessageList, unit>
 
 val inline isSingleErrorMessageOfType: ErrorMessageType -> ErrorMessageList -> bool
 
 /// `expectedError label` creates an `ErrorMessageList` with a single `Expected label` message.
-val expected:         string -> ErrorMessageList
+val expected: string -> ErrorMessageList
 /// `expectedStringError str` creates an `ErrorMessageList` with a single `ExpectedString str` message.
-val expectedString:   string -> ErrorMessageList
+val expectedString: string -> ErrorMessageList
 /// `expectedStringCIError str` creates an `ErrorMessageList` with a single `ExpectedStringCI str` message.
 val expectedStringCI: string -> ErrorMessageList
 
 /// `unexpectedError label` creates an `ErrorMessageList` with a single `Unexpected label` message.
-val unexpected:         string -> ErrorMessageList
+val unexpected: string -> ErrorMessageList
 /// `unexpectedStringError str` creates an `ErrorMessageList` with a single `UnexpectedString str` message.
-val unexpectedString:   string -> ErrorMessageList
+val unexpectedString: string -> ErrorMessageList
 /// `unexpectedStringCIError str` creates an `ErrorMessageList` with a single `UnexpectedStringCI str` message.
 val unexpectedStringCI: string -> ErrorMessageList
 
 /// `messageError msg` creates an `ErrorMessageList` with a single `Message msg` message.
-val messageError:  string -> ErrorMessageList
+val messageError: string -> ErrorMessageList
 
 /// `otherError o` creates an `ErrorMessageList` with a single `OtherError o` message.
-val otherError:  obj -> ErrorMessageList
+val otherError: obj -> ErrorMessageList
 
 /// `backtrackError stream msgs` creates an `ErrorMessageList` with a single `BacktrackPoint stream.Position msgs` message,
 /// except if `msgs` is already an `ErrorMessageList` with a single `BacktrackPoint(_, _)` message,
 /// in which case `msgs` is returned instead.
-val nestedError:            CharStream<'u> -> ErrorMessageList -> ErrorMessageList
+val nestedError: CharStream<'u> -> ErrorMessageList -> ErrorMessageList
 
 /// `compoundError label state msgs` creates an `ErrorMessageList` with a single `CompoundError label stream.Position msgs` message,
 /// except if `msgs` is an `ErrorMessageList` with a single `BacktrackPoint(pos2, msgs2)` message,
 /// in which case an `ErrorMessageList` with a single `CompoundError label pos2 msgs2` message is returned instead.
-val compoundError:   string -> CharStream<'u> -> ErrorMessageList -> ErrorMessageList
+val compoundError: string -> CharStream<'u> -> ErrorMessageList -> ErrorMessageList
 
 /// `mergeErrors error1 error2` is equivalent to `ErrorMessageList.Merge(error1, error2)`.
-val
-#if NOINLINE
-#else
-    inline
-#endif
-           mergeErrors: ErrorMessageList -> ErrorMessageList -> ErrorMessageList
+val inline mergeErrors: ErrorMessageList -> ErrorMessageList -> ErrorMessageList
 
 /// Represents a simple container type that brings together the position, user state and error messages of a parser error.
 [<Sealed>]
 type ParserError =
-    new: Position * userState:obj * ErrorMessageList -> ParserError
+    new: Position * userState: obj * ErrorMessageList -> ParserError
 
     member Position: Position
     member UserState: obj
@@ -100,12 +97,14 @@ type ParserError =
     /// For each error location the printed position information is augmented
     /// with the line of text surrounding the error position, together with a '^'-marker
     /// pointing to the exact location of the error in the input stream.
-    member WriteTo:   textWriter: System.IO.TextWriter
-                    * streamWhereErrorOccurred: CharStream<'u>
-                    * ?tabSize: int
-                    * ?columnWidth: int 
-                    * ?initialIndention: string * ?indentionIncrement: string
-                    -> unit
+    member WriteTo:
+        textWriter: System.IO.TextWriter *
+        streamWhereErrorOccurred: CharStream<'u> *
+        ?tabSize: int *
+        ?columnWidth: int *
+        ?initialIndention: string *
+        ?indentionIncrement: string ->
+            unit
 
     /// Writes a string representation of the `ParserError` to the given `TextWriter` value.
     ///
@@ -116,12 +115,14 @@ type ParserError =
     /// If `getStreamByName` returns a non-null `CharStream`, the printed error position information is
     /// augmented with the line of text surrounding the error position, together with a '^'-marker
     /// pointing to the exact location of the error in the input stream.
-    member WriteTo:   textWriter: System.IO.TextWriter
-                    * getStream: (Position -> CharStream<'u>)
-                    * ?tabSize: int
-                    * ?columnWidth: int 
-                    * ?initialIndention: string * ?indentionIncrement: string                    
-                    -> unit
+    member WriteTo:
+        textWriter: System.IO.TextWriter *
+        getStream: (Position -> CharStream<'u>) *
+        ?tabSize: int *
+        ?columnWidth: int *
+        ?initialIndention: string *
+        ?indentionIncrement: string ->
+            unit
 
     /// Writes a string representation of the `ParserError` to the given `TextWriter` value.
     ///
@@ -129,11 +130,13 @@ type ParserError =
     /// argument. The given function is expected to print a representation of the passed `Position` value
     /// to the passed `TextWriter` value. If possible, it should indent text lines with the passed string
     /// and take into account the maximum column count (including indention) passed as the last argument.
-    member WriteTo:   textWriter: System.IO.TextWriter
-                    * ?positionPrinter: (System.IO.TextWriter -> Position -> string -> int -> unit)
-                    * ?columnWidth: int 
-                    * ?initialIndention: string * ?indentionIncrement: string
-                    -> unit
+    member WriteTo:
+        textWriter: System.IO.TextWriter *
+        ?positionPrinter: (System.IO.TextWriter -> Position -> string -> int -> unit) *
+        ?columnWidth: int *
+        ?initialIndention: string *
+        ?indentionIncrement: string ->
+            unit
 
     override Equals: obj -> bool
     override GetHashCode: unit -> int

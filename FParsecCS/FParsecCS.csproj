@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
 
-  <Import Project="FParsecCS.targets" />
+    <Import Project="FParsecCS.targets"/>
 
 </Project>
