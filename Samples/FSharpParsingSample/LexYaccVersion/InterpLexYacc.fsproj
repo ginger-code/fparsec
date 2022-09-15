@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net45</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <StartArguments>$(MSBuildProjectDirectory)/test.lang</StartArguments>
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.3.4" />
-    <PackageReference Include="FsLexYacc" Version="7.0.6" />
+    <PackageReference Include="FsLexYacc" Version="10.2.0" />
   </ItemGroup>
 
 </Project>
